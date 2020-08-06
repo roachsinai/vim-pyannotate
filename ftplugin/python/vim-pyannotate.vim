@@ -19,11 +19,16 @@ python3 << EOF
 import sys
 import vim
 from pyannotate_runtime import collect_types
+
+from importlib import reload
 module_to_annotate = vim.eval('s:py_file_no_ext')
 start_point = vim.eval("expand('<cword>')")
+exec('import ' + module_to_annotate)
+exec('reload(' + module_to_annotate + ')')
 exec('from ' + module_to_annotate  + ' import ' + start_point)
 
 parameters = str(vim.eval('input("Input parameters of <cword> function: ")'))
+vim.command("redraw")
 
 def run():
     exec(start_point + '(' + parameters + ')')
