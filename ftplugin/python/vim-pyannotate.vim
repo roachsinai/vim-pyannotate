@@ -8,40 +8,32 @@ if getbufinfo(bufnr())[0].changed
     return
 endif
 
-let s:annotate_dir = asyncrun#get_root('%') . "/.pyannotate"
-call delete(s:annotate_dir, 'rf')
-call mkdir(s:annotate_dir, "", 0700)
-let s:info_file = s:annotate_dir . '/type_info.json'
-let s:py_file_no_ext = expand('%:t:r')
-let s:pyannotate_binary = 'pyannotate'
+let l:annotate_dir = asyncrun#get_root('%') . "/.pyannotate"
+let l:info_file = l:annotate_dir . '/type_info.json'
+call delete(l:annotate_dir, 'rf')
+call mkdir(l:annotate_dir, "", 0700)
 
-python3 << EOF
-import sys
-import vim
-from pyannotate_runtime import collect_types
+let l:py_file_no_ext = expand('%:t:r')
+let l:start_point = expand('<cword>')
+let l:parameters = input("Input parameters of <cword> function: ")
+redraw
 
-from importlib import reload
-module_to_annotate = vim.eval('s:py_file_no_ext')
-start_point = vim.eval("expand('<cword>')")
-exec('import ' + module_to_annotate)
-exec('reload(' + module_to_annotate + ')')
-exec('from ' + module_to_annotate  + ' import ' + start_point)
+call writefile([
+            \ 'from pyannotate_runtime import collect_types',
+            \ 'from ' . l:py_file_no_ext . ' import ' . l:start_point,
+            \ '',
+            \ 'collect_types.init_types_collection()',
+            \ 'with collect_types.collect():',
+            \ '    ' . l:start_point . '(' . l:parameters . ')',
+            \ 'collect_types.dump_stats("' . l:info_file . '")'
+            \], l:annotate_dir . '/driver.py')
+let l:prefix = get(g:, 'project_virtual_env', '')
 
-parameters = str(vim.eval('input("Input parameters of <cword> function: ")'))
-vim.command("redraw")
+call system(l:prefix . '/bin/python -B ' . l:annotate_dir . '/driver.py')
 
-def run():
-    exec(start_point + '(' + parameters + ')')
-
-if __name__ == '__main__':
-    collect_types.init_types_collection()
-    with collect_types.collect():
-        run()
-    collect_types.dump_stats(vim.eval('s:info_file'))
-EOF
-
-let s:output = system(s:pyannotate_binary . ' --type-info=' . s:info_file . ' -w ' . expand('%'))
-echo s:output
+let l:pyannotate_binary = get(g:, 'pyannotate_use_env', v:false)? l:prefix . '/bin/pyannotate' : 'pyannotate'
+let l:output = system(l:pyannotate_binary . ' --type-info=' . l:info_file . ' -w ' . expand('%'))
+echo l:output
 exec ":edit"
 endfunction
 
