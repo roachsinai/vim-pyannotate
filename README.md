@@ -17,16 +17,9 @@ If you want annotate member function, you should custom a function like [gcd.py]
 
 For example,
 
-```
-class C:
-    def add(self, a=1, b=2):
-        return a + b
+![member_function](assets/member_function.gif)
 
 
-def main():
-    c = C()
-    c.add()
-```
 
 ## Dependences
 
