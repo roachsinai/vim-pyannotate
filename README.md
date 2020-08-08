@@ -19,6 +19,14 @@ For example,
 
 ![member_function](assets/member_function.gif)
 
+### Configuration
+
+If your project using a python virtual environment (for example, named `nn`), you could add
+
+`let g:project_virtual_env = '/home/roach/.pyenv/versions/3.7.4/envs/nn'`
+
+to your vimrc. And make sure you have installed `pyannotate` to `nn` before you use this plugin.
+
 ## Project Root
 
 > The project root is the nearest ancestor directory of the current file which contains one of these directories or files: `.svn`, `.git`, `.hg`, `.root` or `.project`. If none of the parent directories contains these root markers, the directory of the current file is used as the project root. The root markers can also be configurated, see [Project Root](https://github.com/skywind3000/asyncrun.vim/wiki/Project-Root).
