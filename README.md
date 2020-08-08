@@ -25,6 +25,8 @@ For example,
 >
 > If your current project is not in any git or subversion repository, just put an empty .root file in your project root.
 
+This plugin vim-pyannotate will create a `.pyannotate` folder under project root.
+
 ## Dependences
 
 [dropbox/pyannotate: Auto-generate PEP-484 annotations](https://github.com/dropbox/pyannotate)

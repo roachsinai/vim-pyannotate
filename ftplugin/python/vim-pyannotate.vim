@@ -10,8 +10,7 @@ endif
 
 let l:annotate_dir = asyncrun#get_root('%') . "/.pyannotate"
 let l:info_file = l:annotate_dir . '/type_info.json'
-call delete(l:annotate_dir, 'rf')
-call mkdir(l:annotate_dir, "", 0700)
+call mkdir(l:annotate_dir, "p", 0700)
 
 let l:py_file_no_ext = expand('%:t:r')
 let l:start_point = expand('<cword>')
