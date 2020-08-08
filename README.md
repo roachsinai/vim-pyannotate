@@ -19,7 +19,11 @@ For example,
 
 ![member_function](assets/member_function.gif)
 
+## Project Root
 
+> The project root is the nearest ancestor directory of the current file which contains one of these directories or files: `.svn`, `.git`, `.hg`, `.root` or `.project`. If none of the parent directories contains these root markers, the directory of the current file is used as the project root. The root markers can also be configurated, see [Project Root](https://github.com/skywind3000/asyncrun.vim/wiki/Project-Root).
+>
+> If your current project is not in any git or subversion repository, just put an empty .root file in your project root.
 
 ## Dependences
 
