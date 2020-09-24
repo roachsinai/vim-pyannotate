@@ -9,11 +9,11 @@ Plug 'roachsinai/vim-pyannotate'
 
 ## Usage
 
-1. Cursor on the function that need to be annotated.
+1. Cursor on the function (line defines it) that need to be annotated.
 2. Run `:AnnotatePyFile`.
-3. Follow prompt input parameters function need, no brackets surround.
+3. Follow prompt input only parameters function needed, no brackets surround.
 
-If you want annotate member function, you should custom a function like [gcd.py](https://github.com/dropbox/pyannotate/blob/master/example/gcd.py). Then put cursor on `main` on step 1.
+If you want annotate member function, you should custom a function like [example: gcd.py](https://github.com/dropbox/pyannotate/blob/master/example/gcd.py) before do Step 1.
 
 For example,
 
@@ -21,11 +21,13 @@ For example,
 
 ### Configuration
 
-If your project using a python virtual environment (for example, named `nn`), you could add
+System python interpreter used by default. If your project using a python virtual environment (for example, named `nn`), you could add
 
 `let g:project_virtual_env = '/home/roach/.pyenv/versions/3.7.4/envs/nn'`
 
 to your vimrc. And make sure you have installed `pyannotate` to `nn` before you use this plugin.
+
+What's more, the value of `g:project_virtual_env` could also be a list of strings: `['/home/roach/.pyenv/versions/3.7.4/envs/nn', '/usr']`. You will be asked to choose python binary of `nn` virtual environment or systerm before input function parameters in this time.
 
 ## Project Root
 
