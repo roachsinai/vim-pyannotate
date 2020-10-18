@@ -28,6 +28,8 @@ function! s:AnnotatePyFile()
     redraw
 
     call writefile([
+                "\ 'import sys',
+                "\ 'print(sys.path)',
                 \ 'from pyannotate_runtime import collect_types',
                 \ 'from ' . l:py_file_no_ext . ' import ' . l:start_point,
                 \ '',
