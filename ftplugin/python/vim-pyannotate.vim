@@ -11,6 +11,9 @@ function! s:AnnotatePyFile()
     let l:annotate_dir = asyncrun#get_root('%') . "/.pyannotate"
     let l:info_file = l:annotate_dir . '/type_info.json'
     call mkdir(l:annotate_dir, "p", 0700)
+    if filereadable(l:info_file)
+        call delete(l:info_file)
+    endif
 
     let l:py_file_no_ext = expand('%:t:r')
     let l:current_line = getline(".")
@@ -34,7 +37,15 @@ function! s:AnnotatePyFile()
                 \ 'collect_types.dump_stats("' . l:info_file . '")'
                 \], l:annotate_dir . '/driver.py')
 
-    call system(l:python_binary_prefix . '/bin/python -B ' . l:annotate_dir . '/driver.py')
+    let l:output =  system(l:python_binary_prefix . '/bin/python -B ' . l:annotate_dir . '/driver.py')
+    echom l:python_binary_prefix . '/bin/python -B ' . l:annotate_dir . '/driver.py'
+    echo l:output
+    redraw
+
+    if !filereadable(l:info_file)
+        echo "Please fix bugs in your script."
+        return
+    endif
 
     let l:pyannotate_binary = get(g:, 'pyannotate_use_env', v:false)? l:python_binary_prefix . '/bin/pyannotate' : 'pyannotate'
     let l:output = system(l:pyannotate_binary . ' --py3 --type-info=' . l:info_file . ' -w ' . expand('%'))
