@@ -34,7 +34,7 @@ function! s:AnnotatePyFile()
                 \ 'collect_types.dump_stats("' . l:info_file . '")'
                 \], l:annotate_dir . '/driver.py')
 
-    call system(l:python_binary_prefix . ' -B ' . l:annotate_dir . '/driver.py')
+    call system(l:python_binary_prefix . '/bin/python -B ' . l:annotate_dir . '/driver.py')
 
     let l:pyannotate_binary = get(g:, 'pyannotate_use_env', v:false)? l:python_binary_prefix . '/bin/pyannotate' : 'pyannotate'
     let l:output = system(l:pyannotate_binary . ' --py3 --type-info=' . l:info_file . ' -w ' . expand('%'))
